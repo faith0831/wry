@@ -382,6 +382,7 @@ use objc2_app_kit::NSWindow;
 use objc2_web_kit::WKUserContentController;
 #[cfg(any(target_os = "macos", target_os = "ios"))]
 pub(crate) mod wkwebview;
+use webview2_com::Microsoft::Web::WebView2::Win32::ICoreWebView2Environment;
 #[cfg(any(target_os = "macos", target_os = "ios"))]
 use wkwebview::*;
 #[cfg(any(target_os = "macos", target_os = "ios"))]
@@ -2009,6 +2010,9 @@ pub trait WebViewExtWindows {
   /// Returns WebView2 Controller
   fn controller(&self) -> ICoreWebView2Controller;
 
+  /// Returns WebView2 env
+  fn env(&self) -> ICoreWebView2Environment;
+
   /// Changes the webview2 theme.
   ///
   /// Requires WebView2 Runtime version 101.0.1210.39 or higher, returns error on older versions,
@@ -2037,6 +2041,10 @@ pub trait WebViewExtWindows {
 impl WebViewExtWindows for WebView {
   fn controller(&self) -> ICoreWebView2Controller {
     self.webview.controller.clone()
+  }
+
+  fn env(&self) -> ICoreWebView2Environment {
+    self.webview.env.clone()
   }
 
   fn set_theme(&self, theme: Theme) -> Result<()> {
