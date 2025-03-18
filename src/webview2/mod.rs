@@ -870,6 +870,9 @@ impl InnerWebView {
           return Ok(());
         };
 
+        #[cfg(feature = "tracing")]
+        let span = tracing::info_span!(parent: None, "wry::custom_protocol::handle", uri = tracing::field::Empty)
+          .entered();
 
         // Request uri
         let webview_request = args.Request()?;
